@@ -36,6 +36,21 @@ By default, the text is given a grayish color (hex `#A9A9A9`).
 
 The `text` and `style` values are passed to a call to `Quill.prototype.formatText`, which you can read about in the Quill API docs, [here](http://quilljs.com/docs/api/#quillprototypeformattext).
 
+## GOTCHAS
+
+So, the current implementation just prepopulates the editor with some styled text.
+
+This can make your form validation a pain in the rumpus.
+
+One tool I've used for workarounds (and I'm not saying I'm proud of it), is to call the internal `isEmpty` method from the placeholder module. This method returns `true` if the editor's length is 1, or if it contains _only_ the placeholder text
+
+You can call `isEmpty` like so:
+
+```javascript
+
+var didMyStupidUserActuallyTypeAnything = editor.modules.placeholder.isEmpty();
+```
+
 ## Contribution
 
 Please make this better! :hearts:
