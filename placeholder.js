@@ -42,5 +42,7 @@
         }
     };
 
+    Placeholder.prototype.initialize = Placeholder.prototype.placeholderHandler;
+
     Quill.registerModule('placeholder', Placeholder);
 })();
