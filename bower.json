@@ -1,0 +1,15 @@
+{
+  "name": "quill-placeholder",
+  "version": "0.0.1",
+  "homepage": "https://github.com/brettimus/quill-placeholder",
+  "authors": [
+    "brettimus <brbeut@gmail.com>"
+  ],
+  "description": "a placeholder text module for quill",
+  "main": "placeholder.js",
+  "keywords": [
+    "quill",
+    "placeholder"
+  ],
+  "license": "MIT"
+}
