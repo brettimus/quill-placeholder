@@ -1,0 +1,58 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>
+    Quill Placeholder Example
+  </title>
+  <link rel="stylesheet" href="./quill.base.css">
+  <style>
+    body {
+      color: #222;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      padding: 6em;
+    }
+    .container h1 {
+      font-family: sans-serif;
+      font-size: 1.6em;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Yay Placeholder Example!</h1>
+    <div id="placeholder-example-container">
+      <div id="placeholder-example-toolbar" class="toolbar ql-toolbar">
+        <select title="Size" class="ql-size">
+        <option value="10px">Small</option>
+        <option value="13px" selected="">Normal</option>
+        <option value="18px">Large</option>
+        <option value="32px">Huge</option>
+        </select>
+        <button class="ql-bold">Bold</button>
+        <button class="ql-italic">Italic</button>
+      </div>
+      <div id="placeholder-example"></div>
+    </div>
+  </div>
+  <script src="./quill.min.js"></script>
+  <script src="../placeholder.js"></script>
+  <script>
+    var editor = new Quill('#placeholder-example');
+    editor.addModule('toolbar', {
+      container: '#placeholder-example-toolbar'
+    });
+    editor.addModule('placeholder', {
+      text: "You are a wonderful human bean.",
+      style: {
+        color: "#959595",
+      },
+    });
+    editor.onModuleLoad('placeholder', function(placeholder) {
+        placeholder.initialize();
+    });
+  </script>
+</body>
+</html>
