@@ -7,6 +7,9 @@
   ],
   "description": "a placeholder text module for quill",
   "main": "placeholder.js",
+  "ignore": [
+    "example"
+  ],
   "keywords": [
     "quill",
     "placeholder"
