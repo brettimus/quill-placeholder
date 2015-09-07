@@ -1,15 +1,10 @@
 (function loadQuillPlaceholderModule() {
+    // Custom module to add placeholder text to Quill editor
     var Placeholder = function(quill, options) {
-        this.mixinOptions(options);
-
-        this.quill     = quill;
-        this.placeholderText = this.options.text  || this.getPlaceholderText();
-
-        // Container elt
-        this.placeholderContainer = quill.addContainer("ql-placeholder");
-        this.placeholderContainer.className += " ql-editor"; //mimic styles of editor
-
-        // TODO - calculate container offsets
+        this.quill    = quill;
+        this.options  = options;
+        this.text     = options.text  || "";
+        this.style    = options.style || { 'color': '#a9a9a9' };
 
         var handler   = this.placeholderHandler.bind(this);
 
@@ -18,54 +13,33 @@
     };
 
     Placeholder.prototype.isEmpty = function isEmpty() {
-        return this.quill.getLength() === 1;
+        // NB: We consider a text-editor containing only the placeholder text to be empty 
+        var length      = this.quill.getLength(),
+            currentText = this.quill.getText(),
+            result      = (length === 1) || (currentText === this.text+"\n");
+        return result;
     };
 
-    Placeholder.prototype.showPlaceholder = function showPlaceholder() {
-        if (this.options.htmlSafe) {
-            this.placeholderContainer.innerHTML = this.placeholderText;
-        }
-        else {
-            this.placeholderContainer.textContent = this.placeholderText;
-        }
+    Placeholder.prototype.addPlaceholder = function addPlaceholder() {
+        var placeholder = this.text;
+        
+        this.quill.setText(placeholder + "\n");
+        this.quill.formatText(0, placeholder.length, this.style);
     };
 
-    Placeholder.prototype.hidePlaceholder = function hidePlaceholder() {
-        this.placeholderContainer.textContent = "";
+    Placeholder.prototype.removePlaceholder = function removePlaceholder() {
+        this.quill.setText("\n");
     };
 
     Placeholder.prototype.placeholderHandler = function placeholderHandler(range) {
         if (!range) {
             // "focus-out"
-            if (this.isEmpty()) this.showPlaceholder();
+            if (this.isEmpty()) this.addPlaceholder();
         }
         else {
             // "focus-in"
-            if (this.isEmpty()) this.hidePlaceholder();
+            if (this.isEmpty()) this.removePlaceholder();
         }
-    };
-
-    Placeholder.prototype.offsetPlaceholderContainer = function offsetPlaceholderContainer() {};
-
-    Placeholder.prototype.mixinOptions = function mixinOptions(options) {
-        var defaults = {
-            text: null,
-            containerClass: "ql-placeholder",
-            dataAttr: "quill-placeholder",
-            htmlSafe: false,
-        };
-        this.options = defaults;
-        // mixin options
-        for (var prop in options) {
-            if (options.hasOwnProperty(prop)) {
-                this.options[prop] = options[prop];
-            }
-        }
-    };
-
-    Placeholder.prototype.getPlaceholderText = function getPlaceholderText() {
-        var text = this.quill.container.getAttribute("data-"+this.options.dataAttr);
-        return text;
     };
 
     Placeholder.prototype.initialize = Placeholder.prototype.placeholderHandler;
