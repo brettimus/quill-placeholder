@@ -23,3 +23,7 @@ Hence, I think the default behavior should be to read the placeholder text from 
 `dataAttr {string} ["quill-placeholder"]`
 `htmlSafe {bool} [false]`
 
+
+## TODO
+
+* Inject CSS

@@ -1,13 +1,9 @@
 (function loadQuillPlaceholderModule() {
     var Placeholder = function(quill, options) {
+        this.quill = quill;
         this.mixinOptions(options);
-
-        this.quill     = quill;
-        this.placeholderText = this.options.text  || this.getPlaceholderText();
-
-        // Container elt
-        this.placeholderContainer = quill.addContainer("ql-placeholder");
-        this.placeholderContainer.className += " ql-editor"; //mimic styles of editor
+        this.createPlaceholderContainer();
+        this.placeholderText = this.options.text || this.getPlaceholderText();
 
         // TODO - calculate container offsets
 
@@ -22,12 +18,9 @@
     };
 
     Placeholder.prototype.showPlaceholder = function showPlaceholder() {
-        if (this.options.htmlSafe) {
-            this.placeholderContainer.innerHTML = this.placeholderText;
-        }
-        else {
-            this.placeholderContainer.textContent = this.placeholderText;
-        }
+        var contentProperty = this.options.htmlSafe ? "innerHTML" : "textContent";
+        this.placeholderContainer[contentProperty] = this.placeholderText;
+        this.offsetPlaceholderContainer();
     };
 
     Placeholder.prototype.hidePlaceholder = function hidePlaceholder() {
@@ -45,7 +38,21 @@
         }
     };
 
-    Placeholder.prototype.offsetPlaceholderContainer = function offsetPlaceholderContainer() {};
+    Placeholder.prototype.createPlaceholderContainer = function createPlaceholderContainer() {
+        this.placeholderContainer = this.quill.addContainer("ql-placeholder");
+        // this.placeholderContainer.className += " ql-editor"; //mimic styles of editor
+    };
+
+
+    Placeholder.prototype.offsetPlaceholderContainer = function offsetPlaceholderContainer() {
+        var quillContainerBox = this.quill.container.getBoundingClientRect();
+        var quillEditorBox    = this.quill.editor.root.getBoundingClientRect();
+        var topOffset         = quillEditorBox.top - quillContainerBox.top;
+        var leftOffset        = quillEditorBox.left - quillContainerBox.left;
+        
+        this.placeholderContainer.style.top = topOffset + "px";
+        this.placeholderContainer.style.left = leftOffset + "px";
+    };
 
     Placeholder.prototype.mixinOptions = function mixinOptions(options) {
         var defaults = {
@@ -54,8 +61,9 @@
             dataAttr: "quill-placeholder",
             htmlSafe: false,
         };
+
         this.options = defaults;
-        // mixin options
+
         for (var prop in options) {
             if (options.hasOwnProperty(prop)) {
                 this.options[prop] = options[prop];
