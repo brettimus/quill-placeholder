@@ -1,21 +1,10 @@
 # quill-placeholder
-A placeholder text module for use with the [quilljs](https://quilljs.org) text editor.
+A placeholder text module for use with the [quilljs](https://quilljs.org) editor
 
 ## Usage
-For `quill-placeholder` to work out of the box, 
-you'll need to include the base stylesheet 
-(`quill-placeholder.css`) and the module file
-(`quill-placeholder.js`).
 
-**Include these module files _after_ you include the respective base Quill files.**
-
-To keep your content within your HTML, add a `data-quill-placeholder` attr to your editor container.
-
-```html
-    <div id="my-editor" data-quill-placeholder="Hello today, world! This is my placeholder text."></div>
-```
-
-Then, when you initialize your editor, include `placeholder` in your module configuration, like so:
+Include `placeholder.js` or `placeholder.min.js` into your project after you load Quill. 
+Then, when you initialize your editor, include `placeholder` in your modules configuration, like so:
 
 ```javascript
 
@@ -27,7 +16,7 @@ var options = {
 var editor  = new Quill("#my-editor", options);
 ```
 
-Finally, initialize the placeholder text once the module is loaded. For this, you can use the 'onModuleLoad' event that Quill exposes.
+Then, initialize the placeholder text once the module is loaded. For this, you can use the 'onModuleLoad' event that Quill exposes.
 
 ```javascript
 
@@ -38,40 +27,29 @@ editor.onModuleLoad('placeholder', function(placeholder) {
 ```
 **:tada: Tada! :tada:**
 
-## How it Works
-The placeholder text is read from the container's `data-quill-placeholder` attribute. 
-The text is then injected into a container element (`ql-placeholder`), 
-which is absolutely positioned to match the offsets of the `ql-editor` element. 
-Because the `ql-placeholder` element has a `z-index` of -1, 
-it does not block the main `ql-editor` container.
-
-You can apply your own CSS to the placeholder text by targeting the `.ql-placeholder` element.
-
-If you want to configure the name of the `data-*` attr 
-or you want to configure the class name of the placeholder container element, 
-continue reading!
-
 ## Configuration
 
-The `placeholder` module accepts an options hash with the following properties and defaults:
+`placeholder` accepts an options hash with a `text` key and a `style` key. The `style` value should in turn be an options hash of styles that your editor instance can use to decorate the placeholder text.
 
-* `dataAttr` (default: `"quill-placeholder"`) - The name of the `data-*` attr from which to pull placeholder text.
-* `containerClass` (default: `"ql-container"`) - The class name for the element that contains and displays the placeholder text.
-* `htmlSafe` (default: `false`) - If true, allows HTML in the placeholder text.
-* `text` (default: `null`) - Hard-coded placeholder text. If truthy, takes precedent over the value obtained from the `data-*` attr.
+By default, the text is given a grayish color (hex `#A9A9A9`).
 
+The `text` and `style` values are passed to a call to `Quill.prototype.formatText`, which you can read about in the Quill API docs, [here](http://quilljs.com/docs/api/#quillprototypeformattext).
 
-You can apply your own CSS to the placeholder text by targeting the `.ql-placeholder` element. 
-By default, the text is given the lightest-allowable grayish color by accessibility standards (hex `#959595`).
+## GOTCHAS
 
+So, the current implementation just prepopulates the editor with some styled text.
 
-## To Contribute
+This can make your form validation a pain in the rumpus.
 
-* Fork
-* Modify
-* Pull Request
-* :heart:
+One tool I've used for workarounds (and I'm not saying I'm proud of it), is to call the internal `isEmpty` method from the placeholder module. This method returns `true` if the editor's length is 1, or if it contains _only_ the placeholder text
 
-## Questions? Comments?
+You can call `isEmpty` like so:
 
-Open an issue or but `@rudeboot` on Twitter.
+```javascript
+
+var didMyStupidUserActuallyTypeAnything = editor.modules.placeholder.isEmpty();
+```
+
+## Contribution
+
+Please make this better! :hearts:
