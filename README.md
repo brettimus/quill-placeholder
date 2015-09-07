@@ -1,16 +1,17 @@
 # quill-placeholder
-A placeholder text module for use with the [quilljs](https://quilljs.org) editor
+a module for use with the quilljs editor that inserts placeholder text into the editor
+
+(This is pretty simple stuff.)
 
 ## Usage
 
-Include `placeholder.js` or `placeholder.min.js` into your project after you load Quill. 
-Then, when you initialize your editor, include `placeholder` in your modules configuration, like so:
+Include placeholder.js into your project after you load Quill. Then, when you initialize your editor, include `placeholder` in your modules configuration, like so:
 
 ```javascript
 
 var options = {
     modules: {
-        placeholder: { /* Your options here */ }
+        placeholder: { text: "Your Placeholder Here", style: { color: '#A9A9A9' } }
     }
 };
 var editor  = new Quill("#my-editor", options);
@@ -25,7 +26,7 @@ editor.onModuleLoad('placeholder', function(placeholder) {
 });
 
 ```
-**:tada: Tada! :tada:**
+**Tada!**
 
 ## Configuration
 

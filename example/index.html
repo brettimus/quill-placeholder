@@ -5,7 +5,6 @@
     Quill Placeholder Example
   </title>
   <link rel="stylesheet" href="./quill.base.css">
-  <link rel="stylesheet" href="../quill-placeholder.css">
   <style>
     body {
       color: #222;
@@ -27,6 +26,16 @@
       margin-top: 8px;
     }
   </style>
+  <style>
+    .ql-placeholder {
+      height: 100%;
+      left: 0;
+      position: absolute;
+      top: 0;
+      /*width: 100%;*/
+      z-index: -1;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -46,7 +55,7 @@
     </div>
   </div>
   <script src="./quill.min.js"></script>
-  <script src="../quill-placeholder.js"></script>
+  <script src="../placeholder.js"></script>
   <script>
     var editor = new Quill('#placeholder-example');
     editor.addModule('toolbar', {
