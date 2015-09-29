@@ -9,7 +9,7 @@
         var handler   = this.placeholderHandler.bind(this);
 
         quill.on("selection-change", handler);
-        quill.placeholder = this.text;
+        if (!quill.placeholder) quill.placeholder = this.text;
     };
 
     Placeholder.prototype.isEmpty = function isEmpty() {
@@ -41,6 +41,8 @@
             if (this.isEmpty()) this.removePlaceholder();
         }
     };
+
+
 
     Placeholder.prototype.initialize = Placeholder.prototype.placeholderHandler;
 
