@@ -44,7 +44,7 @@
 
     Placeholder.prototype.getStyleDefaults = function() {
         var defaults = {
-                color: '#a9a9a9',
+                color: '#959595',
             },
             formats = this.quill.options.formats;
 
