@@ -1,5 +1,4 @@
 (function loadQuillPlaceholderModule() {
-    // Custom module to add placeholder text to Quill editor
     var Placeholder = function(quill, options) {
         this.quill    = quill;
         this.options  = options;
