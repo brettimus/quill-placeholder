@@ -5,23 +5,24 @@ a module for use with the quilljs editor that inserts placeholder text into the 
 
 ## Usage
 
-Include placeholder.js into your project after you load Quill. Then, when you initialize your editor, include `placeholder` in your modules configuration, like so:
+* Include placeholder.js into your project after you load Quill. 
+* When you initialize your editor, include `placeholder` in your modules configuration, like so:
 
 ```javascript
 
 var options = {
     modules: {
-        placeholder: { text: "Your Placeholder Here", style: { color: '#A9A9A9' } }
+        placeholder: { text: "Your Placeholder Here", style: { color: '#959595' } }
     }
 };
 var editor  = new Quill("#my-editor", options);
 ```
 
-Then, initialize the placeholder text once the module is loaded. For this, you can use the 'onModuleLoad' event that Quill exposes.
+If you choose to give the module a name other than placeholder, be sure to initialize it like so:
 
 ```javascript
 
-editor.onModuleLoad('placeholder', function(placeholder) {
+editor.onModuleLoad('myCustomPlaceholderName', function(placeholder) {
     placeholder.initialize();
 });
 
@@ -34,11 +35,15 @@ editor.onModuleLoad('placeholder', function(placeholder) {
 
 By default, the text is given a grayish color (hex `#A9A9A9`).
 
-The `text` and `style` values are passed to a call to `Quill.prototype.formatText`, which you can read about in the Quill API docs, [here](http://quilljs.com/docs/api/#quillprototypeformattext).
+The `text` and `style` values are passed to a call to `Quill.prototype.formatText`, which you can read about in the Quill API docs, [here](http://quilljs.com/docs/api/#quillprototypeformattext). 
+
+By default, the module gives your placeholder text a `color` of `#959595`. 
+If you specify your own whitelist of format names on your quill instance, 
+**the module will be sure to remove any default stylings that you haven't whitelisted**.
 
 ## GOTCHAS
 
-So, the current implementation just prepopulates the editor with some styled text.
+The current implementation just prepopulates the editor with some styled text.
 
 This can make your form validation a pain in the rumpus.
 

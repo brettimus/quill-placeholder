@@ -8,6 +8,9 @@
         var handler   = this.placeholderHandler.bind(this);
 
         quill.on("selection-change", handler);
+        quill.onModuleLoad("placeholder", function(placeholder) {
+            placeholder.initialize();
+        });
         if (!quill.placeholder) quill.placeholder = this.text;
     };
 
