@@ -40,14 +40,16 @@
   <script src="./quill.min.js"></script>
   <script src="../placeholder.js"></script>
   <script>
-    var editor = new Quill('#placeholder-example');
+    var editor = new Quill('#placeholder-example', {
+      formats: ['bold', 'color']
+    });
     editor.addModule('toolbar', {
       container: '#placeholder-example-toolbar'
     });
     editor.addModule('placeholder', {
       text: "You are a wonderful human bean.",
       style: {
-        color: "#959595",
+        'color': "#959595",
       },
     });
     editor.onModuleLoad('placeholder', function(placeholder) {

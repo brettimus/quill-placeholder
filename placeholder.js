@@ -1,15 +1,14 @@
 (function loadQuillPlaceholderModule() {
-    // Custom module to add placeholder text to Quill editor
     var Placeholder = function(quill, options) {
         this.quill    = quill;
         this.options  = options;
         this.text     = options.text  || "";
-        this.style    = options.style || { 'color': '#a9a9a9' };
+        this.style    = this.extend(this.getStyleDefaults(), options.style);
 
         var handler   = this.placeholderHandler.bind(this);
 
         quill.on("selection-change", handler);
-        quill.placeholder = this.text;
+        if (!quill.placeholder) quill.placeholder = this.text;
     };
 
     Placeholder.prototype.isEmpty = function isEmpty() {
@@ -41,6 +40,42 @@
             if (this.isEmpty()) this.removePlaceholder();
         }
     };
+
+    Placeholder.prototype.getStyleDefaults = function() {
+        var defaults = {
+                color: '#959595',
+            },
+            formats = this.quill.options.formats;
+
+        Object.keys(defaults).forEach(function(defaultFormat) {
+            var isValidFormat = formats.some(function(whitelistedFormat) {
+                return defaultFormat === whitelistedFormat;
+            });
+            if (!isValidFormat) {
+                printFormatWarning(defaultFormat);
+                delete defaults[defaultFormat];
+            }
+        });
+
+        return defaults;
+
+        function printFormatWarning(formatName) {
+            var msg = "[quill-placeholder] Warning!\n\nDefault format '" +
+                        formatName +
+                        "' is not whitelisted by your quill instance.\nPass '" +
+                        formatName +
+                        "' into the 'formats' array of your quill config to apply default styles.";
+            console.log(msg);
+        }
+    };
+
+    Placeholder.prototype.extend = function(o1, o2) {
+        for (var prop in o2)
+            if (o2.hasOwnProperty(prop))
+                o1[prop] = o2[prop];
+        return o1;
+    };
+
 
     Placeholder.prototype.initialize = Placeholder.prototype.placeholderHandler;
 
