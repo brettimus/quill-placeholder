@@ -33,8 +33,6 @@ editor.onModuleLoad('myCustomPlaceholderName', function(placeholder) {
 
 `placeholder` accepts an options hash with a `text` key and a `style` key. The `style` value should in turn be an options hash of styles that your editor instance can use to decorate the placeholder text.
 
-By default, the text is given a grayish color (hex `#A9A9A9`).
-
 The `text` and `style` values are passed to a call to `Quill.prototype.formatText`, which you can read about in the Quill API docs, [here](http://quilljs.com/docs/api/#quillprototypeformattext). 
 
 By default, the module gives your placeholder text a `color` of `#959595`. 
