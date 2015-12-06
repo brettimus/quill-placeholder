@@ -1,12 +1,11 @@
 # quill-placeholder
-a module for use with the quilljs editor that inserts placeholder text into the editor
-
-(This is pretty simple stuff.)
+A module for use with the quilljs editor that inserts placeholder text into the editor
 
 ## Usage
+We assume `Quill` is defined in the global scope. To load the module, do the following:
 
-* Include placeholder.js into your project after you load Quill. 
-* When you initialize your editor, include `placeholder` in your modules configuration, like so:
+* Include placeholder.js via `<script>` tag after Quill. The module is loaded by an [IIFE](https://en.wikipedia.org/wiki/Immediately-invoked_function_expression) so as not to pollute the global scope.
+* When you instantiate your editor, include `placeholder` in the modules configuration, like so:
 
 ```javascript
 
@@ -27,33 +26,36 @@ editor.onModuleLoad('myCustomPlaceholderName', function(placeholder) {
 });
 
 ```
-**Tada!**
+:tada: **Tada!** :tada: That's it.
 
 ## Configuration
 
-`placeholder` accepts an options hash with a `text` key and a `style` key. The `style` value should in turn be an options hash of styles that your editor instance can use to decorate the placeholder text.
+`placeholder` accepts an options objects with a `text` key and a `style` key. The `style` value should in turn be an object whose keys define the styles that your editor instance can use to decorate the placeholder text.
 
-The `text` and `style` values are passed to a call to `Quill.prototype.formatText`, which you can read about in the Quill API docs, [here](http://quilljs.com/docs/api/#quillprototypeformattext). 
+The `text` and `style` values are passed to a call to `Quill.prototype.formatText`, which you can read about in the Quill API docs [here](http://quilljs.com/docs/api/#quillprototypeformattext). 
 
 By default, the module gives your placeholder text a `color` of `#959595`. 
 If you specify your own whitelist of format names on your quill instance, 
-**the module will be sure to remove any default stylings that you haven't whitelisted**.
+**the module will be sure to remove any default stylings that you have not whitelisted**.
 
-## GOTCHAS
+## “Gotchas”
 
-The current implementation just prepopulates the editor with some styled text.
+The current implementation simply prepopulates the editor with styled text, which can make form validation a pain in the rumpus.
 
-This can make your form validation a pain in the rumpus.
+One tool I've used for workarounds (and I'm not saying I'm proud of it), is to call the internal `isEmpty` method from the placeholder module. 
 
-One tool I've used for workarounds (and I'm not saying I'm proud of it), is to call the internal `isEmpty` method from the placeholder module. This method returns `true` if the editor's length is 1, or if it contains _only_ the placeholder text
+`isEmpty` returns `true` if the editor has no text _or_ if it contains only the original placeholder text.
 
-You can call `isEmpty` like so:
+Call `isEmpty` like so:
 
 ```javascript
-
-var didMyStupidUserActuallyTypeAnything = editor.modules.placeholder.isEmpty();
+// editor is your quill instance
+editor.modules.placeholder.isEmpty();
 ```
 
 ## Contribution
 
-Please make this better! :hearts:
+Pull requests are welcome. Please help make this better! :hearts:
+
+## V1
+There is an experimental version of `quill-placeholder` that does not directly populate the editor with text. If you have interest in using it, please create an issue. I will do my best to help you integrate it into your project.
