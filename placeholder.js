@@ -63,12 +63,13 @@
         return defaults;
 
         function printFormatWarning(formatName) {
-            var msg = "[quill-placeholder] Warning!\n\nDefault format '" +
+            var msg = "%c[quill-placeholder] Warning!\n\nDefault format '" +
                         formatName +
                         "' is not whitelisted by your quill instance.\nPass '" +
                         formatName +
                         "' into the 'formats' array of your quill config to apply default styles.";
-            console.log(msg);
+            var style = "color: darkred; font-weight: 700;"
+            console.log(msg, style);
         }
     };
 
