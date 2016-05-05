@@ -1,5 +1,7 @@
-# quill-placeholder
+# quill-placeholder (deprecated)
 A module for use with the quilljs editor that inserts placeholder text into the editor
+
+_Quill intends to add a placeholder configuration. As of writing (May 4, 2016) this can be found [here](http://beta.quilljs.com/docs/configuration/#placeholder)._
 
 ## Usage
 We assume `Quill` is defined in the global scope. To load the module, do the following:
